@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stories — FOTROTH // Journal & Editorial Essays</title>
+  <meta name="description" content="Reflections on visual aesthetics, medium format analog philosophy, and the evolving language of commercial luxury." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23E21B2C'/><rect x='30' y='30' width='40' height='40' fill='%23FFFFFF'/></svg>" />
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Smooth Scroll (Lenis) -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Main Luxury Stylesheet -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="luxury-experience">
+
+  <!-- LUXURY CUSTOM CURSOR -->
+  <div id="custom-cursor" class="custom-cursor">
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-follower" id="cursor-follower">
+      <span class="cursor-text" id="cursor-text"></span>
+    </div>
+  </div>
+
+  <!-- CAMERA VIEWFINDER OVERLAY -->
+  <div id="viewfinder-overlay" class="viewfinder-overlay hidden" aria-hidden="true">
+    <div class="vf-frame">
+      <div class="vf-corner top-left"></div>
+      <div class="vf-corner top-right"></div>
+      <div class="vf-corner bottom-left"></div>
+      <div class="vf-corner bottom-right"></div>
+      <div class="vf-crosshair"></div>
+      <div class="vf-info top">
+        <span>RAW 14-BIT</span>
+        <span>HASSELBLAD H6D-100c</span>
+        <span>REC ● [00:14:22]</span>
+      </div>
+      <div class="vf-info bottom">
+        <span>ISO 100</span>
+        <span>f/1.4</span>
+        <span>1/1000s</span>
+        <span>35mm LEICA SUMMILUX</span>
+        <span>5600K</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header id="main-header" class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo" id="brand-logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="fotroth-logo-hdr" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#EE2638" />
+                <stop offset="50%" stop-color="#E21B2C" />
+                <stop offset="100%" stop-color="#B8101F" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="50" fill="url(#fotroth-logo-hdr)" />
+            <g fill="#FFFFFF">
+              <rect x="61" y="23" width="7.5" height="45.5" />
+              <rect x="23.5" y="61" width="45" height="7.5" />
+              <rect x="31" y="30" width="45" height="7.5" />
+              <rect x="31" y="30" width="7.5" height="46" />
+              <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+            </g>
+          </svg>
+        </span>
+        <span class="logo-text-group">
+          <span class="logo-text">FOTROTH</span>
+          <span class="logo-sub">AMIR MOGHADAM</span>
+        </span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html" class="nav-link" data-i18n="nav_atelier">The Atelier</a>
+        <a href="collection.html" class="nav-link" data-i18n="nav_collection">The Collection</a>
+        <a href="artists.html" class="nav-link" data-i18n="nav_artists">The Artists</a>
+        <a href="masterclass.html" class="nav-link" data-i18n="nav_masterclass">Masterclass</a>
+        <a href="stories.html" class="nav-link active" data-i18n="nav_stories">Stories</a>
+        <a href="collaborate.html" class="nav-link" data-i18n="nav_collaborate">Collaborate</a>
+      </nav>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <button id="vf-toggle" class="icon-btn" title="Toggle Camera Viewfinder Overlay" aria-label="Toggle Camera Viewfinder">
+          <i data-lucide="camera"></i>
+        </button>
+        <button id="sound-toggle" class="icon-btn" title="Toggle Studio Soundscape" aria-label="Toggle Studio Soundscape">
+          <i data-lucide="volume-x" id="sound-icon"></i>
+        </button>
+        <button id="theme-toggle" class="icon-btn" title="Switch Theme" aria-label="Toggle Light Dark Theme">
+          <i data-lucide="sun" id="theme-icon"></i>
+        </button>
+        <button id="lang-toggle" class="lang-btn" aria-label="Switch Language">
+          <span id="current-lang">FA</span>
+        </button>
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open Navigation Menu">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Drawer -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-inner">
+      <div class="mobile-menu-head">
+        <a href="index.html" class="brand-logo">
+          <span class="logo-mark" style="width:28px; height:28px;">
+            <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+              <circle cx="50" cy="50" r="50" fill="#E21B2C" />
+              <g fill="#FFFFFF">
+                <rect x="61" y="23" width="7.5" height="45.5" />
+                <rect x="23.5" y="61" width="45" height="7.5" />
+                <rect x="31" y="30" width="45" height="7.5" />
+                <rect x="31" y="30" width="7.5" height="46" />
+                <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+              </g>
+            </svg>
+          </span>
+          <span class="logo-text" style="font-size: 18px;">FOTROTH</span>
+        </a>
+        <button id="mobile-menu-close" class="icon-btn" aria-label="Close Menu"><i data-lucide="x"></i></button>
+      </div>
+      <nav class="mobile-nav mobile-nav-links">
+        <a href="index.html" class="mobile-nav-item" data-i18n="nav_atelier">The Atelier</a>
+        <a href="collection.html" class="mobile-nav-item" data-i18n="nav_collection">The Collection</a>
+        <a href="artists.html" class="mobile-nav-item" data-i18n="nav_artists">The Artists</a>
+        <a href="masterclass.html" class="mobile-nav-item" data-i18n="nav_masterclass">Masterclass</a>
+        <a href="stories.html" class="mobile-nav-item active" data-i18n="nav_stories">Stories</a>
+        <a href="collaborate.html" class="mobile-nav-item" data-i18n="nav_collaborate">Collaborate</a>
+      </nav>
+      <div class="mobile-menu-foot">
+        <p data-i18n="hero_roles">Visual Artist • International Photographer • Educator • Creative Director</p>
+        <div class="social-links-row">
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link">Instagram</a>
+          <a href="https://behance.net" target="_blank" rel="noopener" class="social-link">Behance</a>
+          <a href="https://vimeo.com" target="_blank" rel="noopener" class="social-link">Vimeo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="content">
+    <!-- Page Hero Banner -->
+    <header class="page-hero-banner">
+      <div class="page-hero-container">
+        <span class="page-hero-tag" data-i18n="journ_tag">EDITORIAL ESSAYS & NOTES</span>
+        <h1 class="page-hero-title" data-i18n="nav_stories">Stories</h1>
+        <p class="page-hero-lead" data-i18n="journ_lead">
+          Reflections on visual aesthetics, medium format analog philosophy, and the evolving language of commercial luxury.
+        </p>
+      </div>
+    </header>
+
+    <!-- Journal Section -->
+    <section class="section journal-section" style="padding-top: 40px;">
+      <div class="section-container">
+        <!-- Journal List -->
+        <div class="journal-list">
+          <!-- Article 1 -->
+          <article class="journal-item open-journal-article" data-id="art1">
+            <div class="journal-meta">
+              <span class="journal-date">OCTOBER 2025</span>
+              <span class="journal-cat">LIGHT & ATMOSPHERE</span>
+            </div>
+            <h3 class="journal-title">The Geometry of Light in High-Fashion Noir</h3>
+            <p class="journal-excerpt">
+              Why harsh directional shadows evoke more emotional resonance than flat beauty lighting in modern luxury campaigns.
+            </p>
+            <div class="journal-read-more">
+              <span data-i18n="read_essay">READ ESSAY</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </article>
+
+          <!-- Article 2 -->
+          <article class="journal-item open-journal-article" data-id="art2">
+            <div class="journal-meta">
+              <span class="journal-date">AUGUST 2025</span>
+              <span class="journal-cat">ANALOG PHILOSOPHY</span>
+            </div>
+            <h3 class="journal-title">The Tactile Soul of Medium Format Film in a 100MP Digital World</h3>
+            <p class="journal-excerpt">
+              Examining why major fashion houses are returning to silver halide grain to combat algorithmic digital perfection.
+            </p>
+            <div class="journal-read-more">
+              <span data-i18n="read_essay">READ ESSAY</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </article>
+
+          <!-- Article 3 -->
+          <article class="journal-item open-journal-article" data-id="art3">
+            <div class="journal-meta">
+              <span class="journal-date">MAY 2025</span>
+              <span class="journal-cat">CREATIVE DIRECTION</span>
+            </div>
+            <h3 class="journal-title">The Director’s Vision: Translating Brand Identity into Silent Imagery</h3>
+            <p class="journal-excerpt">
+              How to establish a cohesive visual language that communicates heritage, speed, and elegance without uttering a word.
+            </p>
+            <div class="journal-read-more">
+              <span data-i18n="read_essay">READ ESSAY</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 12px;">
+            <span class="logo-mark" style="width:32px; height:32px;">
+              <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+                <circle cx="50" cy="50" r="50" fill="#E21B2C" />
+                <g fill="#FFFFFF">
+                  <rect x="61" y="23" width="7.5" height="45.5" />
+                  <rect x="23.5" y="61" width="45" height="7.5" />
+                  <rect x="31" y="30" width="45" height="7.5" />
+                  <rect x="31" y="30" width="7.5" height="46" />
+                  <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+                </g>
+              </svg>
+            </span>
+            <span class="logo-text-group">
+              <span class="logo-text">FOTROTH</span>
+              <span class="logo-sub">AMIR MOGHADAM</span>
+            </span>
+          </a>
+          <p class="footer-desc" data-i18n="footer_desc">
+            International Photography, Visual Art & Creative Direction Studio.
+          </p>
+        </div>
+
+        <div class="footer-links-grid">
+          <div class="footer-col">
+            <span class="col-title">NAVIGATION</span>
+            <a href="index.html" data-i18n="nav_atelier">The Atelier</a>
+            <a href="collection.html" data-i18n="nav_collection">The Collection</a>
+            <a href="artists.html" data-i18n="nav_artists">The Artists</a>
+            <a href="masterclass.html" data-i18n="nav_masterclass">Masterclass</a>
+            <a href="stories.html" data-i18n="nav_stories">Stories</a>
+            <a href="collaborate.html" data-i18n="nav_collaborate">Collaborate</a>
+          </div>
+          <div class="footer-col">
+            <span class="col-title">STUDIOS</span>
+            <span>Paris Studio</span>
+            <span>Dubai District</span>
+            <span>Tehran Gallery</span>
+          </div>
+          <div class="footer-col">
+            <span class="col-title">SOCIAL</span>
+            <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://behance.net" target="_blank" rel="noopener">Behance</a>
+            <a href="https://vimeo.com" target="_blank" rel="noopener">Vimeo</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="copyright">
+          © <span id="year-span">2026</span> FOTROTH • AMIR MOGHADAM. ALL RIGHTS RESERVED.
+        </div>
+        <div class="footer-credits">
+          <span data-i18n="footer_tagline">LUXURY COMMERCIAL • EDITORIAL • CINEMATIC</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JOURNAL ARTICLE SLIDE-OUT DRAWER -->
+  <div id="journal-drawer" class="drawer-overlay hidden" aria-hidden="true">
+    <div class="drawer-content">
+      <button id="journal-drawer-close" class="drawer-close-btn" aria-label="Close Article"><i data-lucide="x"></i></button>
+      <div id="journal-article-body" class="journal-article-body">
+        <!-- Injected article content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Ambient Soundscape Audio Source -->
+  <audio id="ambient-audio" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-ambient-pad-111154.mp3"></audio>
+
+  <!-- Data Architecture Layer -->
+  <script src="./data/categories.js"></script>
+  <script src="./data/collective.js"></script>
+  <script src="./data/projects.js"></script>
+  <script src="./data/academy.js"></script>
+  <script src="./data/journal.js"></script>
+  <script src="./data/translations.js"></script>
+  <script src="./data/store.js"></script>
+
+  <!-- Application Script -->
+  <script defer src="./script.js"></script>
+</body>
+</html>
