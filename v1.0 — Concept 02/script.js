@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 5. VIEWFINDER OVERLAY & AUDIO SYNTH
+  // 5. VIEWFINDER OVERLAY & AMBIENT AUDIO SYSTEM
   // ==========================================
   const vfToggle = document.getElementById('vf-toggle');
   const vfOverlay = document.getElementById('viewfinder-overlay');
@@ -371,10 +371,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Web Audio Camera Shutter / Room Tone Synth
+  // Web Audio Camera Shutter Synth
   let audioCtx = null;
-  let isSoundOn = false;
-  let ambientOsc = null;
 
   function playCameraShutterSound() {
     try {
@@ -397,49 +395,111 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) {}
   }
 
+  // Subtle Ambient Soundscape Engine
+  const ambientAudio = document.getElementById('ambient-audio');
   const soundToggleBtn = document.getElementById('sound-toggle');
-  const soundIcon = document.getElementById('sound-icon');
+
+  let targetVolume = 0.15; // Low, subtle background atmosphere
+  let fadeInterval = null;
+  let isMuted = sessionStorage.getItem('fotroth_sound_muted') === 'true';
+
+  function updateAudioUI(playing) {
+    if (!soundToggleBtn) return;
+    const iconName = playing ? 'volume-2' : 'volume-x';
+    soundToggleBtn.innerHTML = `<i data-lucide="${iconName}" id="sound-icon"></i>`;
+    if (window.lucide) window.lucide.createIcons();
+
+    if (playing) {
+      soundToggleBtn.classList.add('sound-active');
+      soundToggleBtn.setAttribute('aria-label', 'Mute Soundscape');
+      soundToggleBtn.setAttribute('title', 'Mute Soundscape');
+    } else {
+      soundToggleBtn.classList.remove('sound-active');
+      soundToggleBtn.setAttribute('aria-label', 'Enable Soundscape');
+      soundToggleBtn.setAttribute('title', 'Enable Soundscape');
+    }
+  }
+
+  function fadeInAudio() {
+    if (!ambientAudio) return;
+    ambientAudio.volume = 0;
+    const playPromise = ambientAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        clearInterval(fadeInterval);
+        fadeInterval = setInterval(() => {
+          if (ambientAudio.volume < targetVolume) {
+            ambientAudio.volume = Math.min(targetVolume, ambientAudio.volume + 0.015);
+          } else {
+            clearInterval(fadeInterval);
+          }
+        }, 80);
+        updateAudioUI(true);
+      }).catch(() => {
+        // Autoplay blocked by browser policy — wait for user interaction
+        updateAudioUI(false);
+        attachInteractionListener();
+      });
+    }
+  }
+
+  function fadeOutAudio() {
+    if (!ambientAudio) return;
+    clearInterval(fadeInterval);
+    fadeInterval = setInterval(() => {
+      if (ambientAudio.volume > 0.01) {
+        ambientAudio.volume = Math.max(0, ambientAudio.volume - 0.02);
+      } else {
+        ambientAudio.pause();
+        ambientAudio.volume = 0;
+        clearInterval(fadeInterval);
+        updateAudioUI(false);
+      }
+    }, 60);
+  }
+
+  function toggleAudio() {
+    if (!ambientAudio) return;
+    if (ambientAudio.paused || ambientAudio.volume === 0) {
+      isMuted = false;
+      sessionStorage.setItem('fotroth_sound_muted', 'false');
+      fadeInAudio();
+    } else {
+      isMuted = true;
+      sessionStorage.setItem('fotroth_sound_muted', 'true');
+      fadeOutAudio();
+    }
+  }
+
+  function attachInteractionListener() {
+    const startAudioOnInteraction = () => {
+      if (!isMuted && ambientAudio && ambientAudio.paused) {
+        fadeInAudio();
+      }
+      window.removeEventListener('click', startAudioOnInteraction);
+      window.removeEventListener('keydown', startAudioOnInteraction);
+      window.removeEventListener('touchstart', startAudioOnInteraction);
+      window.removeEventListener('scroll', startAudioOnInteraction);
+    };
+
+    window.addEventListener('click', startAudioOnInteraction, { once: true });
+    window.addEventListener('keydown', startAudioOnInteraction, { once: true });
+    window.addEventListener('touchstart', startAudioOnInteraction, { once: true });
+    window.addEventListener('scroll', startAudioOnInteraction, { once: true });
+  }
 
   if (soundToggleBtn) {
-    soundToggleBtn.addEventListener('click', () => {
-      isSoundOn = !isSoundOn;
-      if (soundIcon) {
-        soundIcon.setAttribute('data-lucide', isSoundOn ? 'volume-2' : 'volume-x');
-        if (window.lucide) window.lucide.createIcons();
-      }
-
-      if (isSoundOn) {
-        startAmbientDrone();
-      } else {
-        stopAmbientDrone();
-      }
+    soundToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleAudio();
     });
   }
 
-  function startAmbientDrone() {
-    try {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      ambientOsc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      ambientOsc.type = 'sine';
-      ambientOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // Low A
-
-      gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-
-      ambientOsc.connect(gain);
-      gain.connect(audioCtx.destination);
-      ambientOsc.start();
-    } catch(e) {}
-  }
-
-  function stopAmbientDrone() {
-    if (ambientOsc) {
-      try {
-        ambientOsc.stop();
-        ambientOsc = null;
-      } catch(e) {}
-    }
+  // Initial Audio Trigger
+  if (!isMuted) {
+    fadeInAudio();
+  } else {
+    updateAudioUI(false);
   }
 
   // ==========================================
@@ -625,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="modal-gallery-head">
         <span class="project-badge">${data.client}</span>
         <h2 class="modal-title" style="font-family: var(--font-serif); font-size: 32px; margin: 16px 0 8px;">${data.title}</h2>
-        <p style="color: var(--accent-gold); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 24px;">${data.category} • ${data.specs}</p>
+        <p style="color: var(--accent-red); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 24px;">${data.category} • ${data.specs}</p>
       </div>
 
       <div class="modal-main-image" style="margin-bottom: 24px;">
@@ -721,13 +781,13 @@ document.addEventListener('DOMContentLoaded', () => {
       body: `
         <span class="section-tag">EDITORIAL ESSAY</span>
         <h2 style="font-family: var(--font-serif); font-size: 32px; margin: 16px 0;">The Geometry of Light in High-Fashion Noir</h2>
-        <p style="color: var(--accent-gold); font-size: 12px; margin-bottom: 24px;">BY AMIR MOGHADAM • 8 MIN READ</p>
+        <p style="color: var(--accent-red); font-size: 12px; margin-bottom: 24px;">BY AMIR MOGHADAM • 8 MIN READ</p>
         
         <p style="line-height: 1.8; color: var(--text-secondary); margin-bottom: 16px;">
           In contemporary commercial imagery, there is a pervasive temptation to eliminate shadows in favor of flat, even lighting. However, true luxury aesthetic demands mystery. Shadows are not merely the absence of light; they are positive visual elements that establish structure, rhythm, and emotional weight.
         </p>
 
-        <blockquote style="border-left: 2px solid var(--accent-gold); padding-left: 20px; font-style: italic; margin: 24px 0; font-family: var(--font-serif); font-size: 20px;">
+        <blockquote style="border-left: 2px solid var(--accent-red); padding-left: 20px; font-style: italic; margin: 24px 0; font-family: var(--font-serif); font-size: 20px;">
           "When you illuminate everything, you reveal nothing. Precision lighting is the art of strategic omission."
         </blockquote>
 
@@ -743,7 +803,7 @@ document.addEventListener('DOMContentLoaded', () => {
       body: `
         <span class="section-tag">ANALOG PHILOSOPHY</span>
         <h2 style="font-family: var(--font-serif); font-size: 32px; margin: 16px 0;">The Tactile Soul of Medium Format Film</h2>
-        <p style="color: var(--accent-gold); font-size: 12px; margin-bottom: 24px;">BY AMIR MOGHADAM • 6 MIN READ</p>
+        <p style="color: var(--accent-red); font-size: 12px; margin-bottom: 24px;">BY AMIR MOGHADAM • 6 MIN READ</p>
         
         <p style="line-height: 1.8; color: var(--text-secondary); margin-bottom: 16px;">
           Despite the incredible resolution of modern 100-megapixel digital sensors, major European fashion houses are increasingly requesting silver halide film captures for top-tier print campaigns.
@@ -760,7 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
       body: `
         <span class="section-tag">CREATIVE DIRECTION</span>
         <h2 style="font-family: var(--font-serif); font-size: 32px; margin: 16px 0;">The Director’s Vision</h2>
-        <p style="color: var(--accent-gold); font-size: 12px; margin-bottom: 24px;">BY AMIR MOGHADAM • 10 MIN READ</p>
+        <p style="color: var(--accent-red); font-size: 12px; margin-bottom: 24px;">BY AMIR MOGHADAM • 10 MIN READ</p>
         
         <p style="line-height: 1.8; color: var(--text-secondary);">
           Creative direction in photography extends far beyond clicking a shutter. It is the architectural orchestration of mood, talent posture, spatial geometry, and color harmony. When directing automotive or high jewelry, every element in the frame must serve the brand's core legacy.

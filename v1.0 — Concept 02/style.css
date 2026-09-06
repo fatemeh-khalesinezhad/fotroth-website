@@ -17,12 +17,19 @@
   --text-muted: #6b6760;
   
   --border-color: rgba(245, 243, 238, 0.12);
-  --border-active: rgba(197, 160, 89, 0.6);
+  --border-active: rgba(226, 27, 44, 0.65);
   
-  --accent-gold: #c5a059; /* Subtle Metallic Bronze/Gold */
-  --accent-gold-hover: #dfb86e;
-  --accent-gold-glow: rgba(197, 160, 89, 0.25);
-  --accent-light: rgba(245, 243, 238, 0.05);
+  /* Official FOTROTH Red Accent System (Leica / Ferrari Grade) */
+  --accent-red: #E21B2C;
+  --accent-red-hover: #F53345;
+  --accent-red-glow: rgba(226, 27, 44, 0.28);
+  --accent-red-dark: #B8101F;
+  --accent-light: rgba(226, 27, 44, 0.08);
+
+  /* Fallback aliases for gold classes */
+  --accent-gold: var(--accent-red);
+  --accent-gold-hover: var(--accent-red-hover);
+  --accent-gold-glow: var(--accent-red-glow);
 
   --font-serif: 'Playfair Display', 'Cormorant Garamond', 'Amiri', serif;
   --font-sans: 'Plus Jakarta Sans', 'Vazirmatn', sans-serif;
@@ -49,12 +56,18 @@
   --text-muted: #8c877e;
   
   --border-color: rgba(10, 10, 10, 0.12);
-  --border-active: rgba(158, 123, 51, 0.6);
+  --border-active: rgba(196, 20, 35, 0.65);
   
-  --accent-gold: #9e7b33;
-  --accent-gold-hover: #7c5f21;
-  --accent-gold-glow: rgba(158, 123, 51, 0.2);
-  --accent-light: rgba(10, 10, 10, 0.04);
+  /* Controlled FOTROTH Red for Light Editorial Paper */
+  --accent-red: #C41423;
+  --accent-red-hover: #A80F1E;
+  --accent-red-glow: rgba(196, 20, 35, 0.22);
+  --accent-red-dark: #8E0A17;
+  --accent-light: rgba(196, 20, 35, 0.06);
+
+  --accent-gold: var(--accent-red);
+  --accent-gold-hover: var(--accent-red-hover);
+  --accent-gold-glow: var(--accent-red-glow);
 }
 
 /* 2. BASE RESET & GLOBAL TYPOGRAPHY */
@@ -101,7 +114,7 @@ img {
 }
 
 /* Helper Text Classes */
-.text-gold { color: var(--accent-gold); }
+.text-red, .text-gold { color: var(--accent-red); }
 .bg-primary { background-color: var(--bg-primary); }
 .text-primary { color: var(--text-primary); }
 
@@ -284,24 +297,51 @@ img {
 
 .brand-logo {
   display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo:hover .logo-mark {
+  transform: scale(1.08) rotate(4deg);
+}
+
+.logo-icon-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.logo-text-group {
+  display: flex;
   flex-direction: column;
 }
 
 .logo-text {
   font-family: var(--font-syne);
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 800;
-  letter-spacing: 4px;
+  letter-spacing: 3.5px;
   color: var(--text-primary);
   line-height: 1;
 }
 
 .logo-sub {
-  font-size: 9px;
-  font-weight: 600;
+  font-size: 8.5px;
+  font-weight: 700;
   letter-spacing: 2px;
-  color: var(--accent-gold);
-  margin-top: 4px;
+  color: var(--accent-red);
+  margin-top: 3px;
 }
 
 .main-nav {
@@ -382,6 +422,12 @@ img {
 .lang-btn:hover {
   border-color: var(--accent-gold);
   color: var(--accent-gold);
+}
+
+.icon-btn.sound-active {
+  border-color: rgba(226, 27, 44, 0.6);
+  background: var(--accent-light);
+  color: var(--accent-red);
 }
 
 .mobile-menu-btn {
@@ -655,25 +701,26 @@ img {
   transform: translateY(-2px);
 }
 
-.btn-gold {
+.btn-gold, .btn-red {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   padding: 16px 32px;
-  background: linear-gradient(135deg, #c5a059 0%, #9e7b33 100%);
-  color: #000;
+  background: linear-gradient(135deg, #EE2638 0%, #B8101F 100%);
+  color: #ffffff;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 2px;
   border-radius: var(--radius-sm);
   transition: var(--transition-fast);
+  border: none;
 }
 
-.btn-gold:hover {
-  filter: brightness(1.1);
+.btn-gold:hover, .btn-red:hover {
+  filter: brightness(1.12);
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(197, 160, 89, 0.4);
+  box-shadow: 0 10px 25px rgba(226, 27, 44, 0.45);
 }
 
 .btn-block { width: 100%; }

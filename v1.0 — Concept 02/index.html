@@ -25,7 +25,7 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" href="./style.css" />
 </head>
-<body class="bg-primary text-primary antialiased selection:bg-gold selection:text-black">
+<body class="bg-primary text-primary antialiased selection:bg-red selection:text-white">
 
   <!-- Custom Luxury Cursor -->
   <div id="cursor-dot" class="cursor-dot"></div>
@@ -44,7 +44,7 @@
       <div class="vf-info top">
         <span>RAW 16-BIT</span>
         <span>50.1 MP</span>
-        <span class="text-gold animate-pulse">● REC [00:14:28]</span>
+        <span class="text-red animate-pulse">● REC [00:14:28]</span>
       </div>
       <div class="vf-info bottom">
         <span>ISO 100</span>
@@ -61,8 +61,29 @@
     <div class="header-container">
       <!-- Logo -->
       <a href="#hero" class="brand-logo" id="brand-logo">
-        <span class="logo-text">FOTROTH</span>
-        <span class="logo-sub">AMIR MOGHADAM</span>
+        <span class="logo-mark">
+          <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="fotroth-logo-hdr" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#EE2638" />
+                <stop offset="50%" stop-color="#E21B2C" />
+                <stop offset="100%" stop-color="#B8101F" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="50" fill="url(#fotroth-logo-hdr)" />
+            <g fill="#FFFFFF">
+              <rect x="61" y="23" width="7.5" height="45.5" />
+              <rect x="23.5" y="61" width="45" height="7.5" />
+              <rect x="31" y="30" width="45" height="7.5" />
+              <rect x="31" y="30" width="7.5" height="46" />
+              <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+            </g>
+          </svg>
+        </span>
+        <span class="logo-text-group">
+          <span class="logo-text">FOTROTH</span>
+          <span class="logo-sub">AMIR MOGHADAM</span>
+        </span>
       </a>
 
       <!-- Desktop Navigation Links -->
@@ -110,7 +131,21 @@
   <div id="mobile-menu" class="mobile-menu">
     <div class="mobile-menu-inner">
       <div class="mobile-menu-head">
-        <span class="logo-text">FOTROTH</span>
+        <a href="#hero" class="brand-logo">
+          <span class="logo-mark" style="width:28px; height:28px;">
+            <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+              <circle cx="50" cy="50" r="50" fill="#E21B2C" />
+              <g fill="#FFFFFF">
+                <rect x="61" y="23" width="7.5" height="45.5" />
+                <rect x="23.5" y="61" width="45" height="7.5" />
+                <rect x="31" y="30" width="45" height="7.5" />
+                <rect x="31" y="30" width="7.5" height="46" />
+                <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+              </g>
+            </svg>
+          </span>
+          <span class="logo-text" style="font-size: 18px;">FOTROTH</span>
+        </a>
         <button id="mobile-menu-close" class="icon-btn" aria-label="Close Menu"><i data-lucide="x"></i></button>
       </div>
       <nav class="mobile-nav">
@@ -162,7 +197,7 @@
           <div class="hero-eyebrow" data-i18n="hero_eyebrow">THE VISUAL HEADQUARTERS OF</div>
           <h1 class="hero-title" id="hero-main-title">
             <span class="word">AMIR</span>
-            <span class="word text-gold">MOGHADAM</span>
+            <span class="word text-red">MOGHADAM</span>
           </h1>
           <p class="hero-subtitle" data-i18n="hero_subtitle">
             Visual Artist • International Photographer • Photography Educator • Creative Director
@@ -791,8 +826,24 @@
     <div class="footer-container">
       <div class="footer-top">
         <div class="footer-brand">
-          <span class="logo-text">FOTROTH</span>
-          <span class="logo-sub">AMIR MOGHADAM</span>
+          <a href="#hero" class="brand-logo" style="margin-bottom: 12px;">
+            <span class="logo-mark" style="width:32px; height:32px;">
+              <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+                <circle cx="50" cy="50" r="50" fill="#E21B2C" />
+                <g fill="#FFFFFF">
+                  <rect x="61" y="23" width="7.5" height="45.5" />
+                  <rect x="23.5" y="61" width="45" height="7.5" />
+                  <rect x="31" y="30" width="45" height="7.5" />
+                  <rect x="31" y="30" width="7.5" height="46" />
+                  <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+                </g>
+              </svg>
+            </span>
+            <span class="logo-text-group">
+              <span class="logo-text">FOTROTH</span>
+              <span class="logo-sub">AMIR MOGHADAM</span>
+            </span>
+          </a>
           <p class="footer-desc" data-i18n="footer_desc">
             International Photography, Visual Art & Creative Direction Studio.
           </p>
@@ -898,6 +949,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Background Ambient Soundscape Audio Source -->
+  <audio id="ambient-audio" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-ambient-pad-111154.mp3"></audio>
 
   <!-- Application Script -->
   <script defer src="./script.js"></script>
