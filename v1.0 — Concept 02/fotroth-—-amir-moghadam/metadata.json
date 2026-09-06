@@ -1,0 +1,6 @@
+{
+  "name": "FOTROTH — Amir Moghadam",
+  "description": "Luxury personal brand platform for Amir Moghadam — Visual Artist, International Photographer, Educator, & Creative Director.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

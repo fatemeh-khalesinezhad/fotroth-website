@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FOTROTH — Amir Moghadam | Visual Artist & Creative Director</title>
+  <meta name="description" content="Luxury personal brand platform of Amir Moghadam. International Photographer, Visual Artist, Photography Educator & Creative Director." />
+
+  <!-- Google Fonts: Luxury Serif & Modern Clean Sans-Serif + Persian Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="bg-primary text-primary antialiased selection:bg-red selection:text-white">
+
+  <!-- Custom Luxury Cursor -->
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <div id="cursor-follower" class="cursor-follower">
+    <span class="cursor-text" id="cursor-text">VIEW</span>
+  </div>
+
+  <!-- Camera Viewfinder Grid Overlay (Toggleable) -->
+  <div id="viewfinder-overlay" class="viewfinder-overlay hidden">
+    <div class="viewfinder-frame">
+      <div class="vf-corner top-left"></div>
+      <div class="vf-corner top-right"></div>
+      <div class="vf-corner bottom-left"></div>
+      <div class="vf-corner bottom-right"></div>
+      <div class="vf-crosshair"></div>
+      <div class="vf-info top">
+        <span>RAW 16-BIT</span>
+        <span>50.1 MP</span>
+        <span class="text-red animate-pulse">● REC [00:14:28]</span>
+      </div>
+      <div class="vf-info bottom">
+        <span>ISO 100</span>
+        <span>f/1.4</span>
+        <span>1/1000s</span>
+        <span>35mm LEICA SUMMILUX</span>
+        <span>5600K</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header id="main-header" class="site-header">
+    <div class="header-container">
+      <!-- Logo -->
+      <a href="#hero" class="brand-logo" id="brand-logo">
+        <span class="logo-mark">
+          <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="fotroth-logo-hdr" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#EE2638" />
+                <stop offset="50%" stop-color="#E21B2C" />
+                <stop offset="100%" stop-color="#B8101F" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="50" fill="url(#fotroth-logo-hdr)" />
+            <g fill="#FFFFFF">
+              <rect x="61" y="23" width="7.5" height="45.5" />
+              <rect x="23.5" y="61" width="45" height="7.5" />
+              <rect x="31" y="30" width="45" height="7.5" />
+              <rect x="31" y="30" width="7.5" height="46" />
+              <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+            </g>
+          </svg>
+        </span>
+        <span class="logo-text-group">
+          <span class="logo-text">FOTROTH</span>
+          <span class="logo-sub">AMIR MOGHADAM</span>
+        </span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="main-nav" id="main-nav">
+        <a href="#works" class="nav-link" data-i18n="nav_works"><span class="nav-num">01.</span> Selected Works</a>
+        <a href="#commercial" class="nav-link" data-i18n="nav_commercial"><span class="nav-num">02.</span> Commercial</a>
+        <a href="#philosophy" class="nav-link" data-i18n="nav_philosophy"><span class="nav-num">03.</span> Philosophy</a>
+        <a href="#academy" class="nav-link" data-i18n="nav_academy"><span class="nav-num">04.</span> Academy</a>
+        <a href="#journal" class="nav-link" data-i18n="nav_journal"><span class="nav-num">05.</span> Journal</a>
+        <a href="#contact" class="nav-link" data-i18n="nav_contact"><span class="nav-num">06.</span> Inquiry</a>
+      </nav>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <!-- Viewfinder Overlay Toggle -->
+        <button id="vf-toggle" class="icon-btn" title="Toggle Camera Viewfinder Overlay" aria-label="Toggle Camera Viewfinder">
+          <i data-lucide="camera"></i>
+        </button>
+
+        <!-- Ambient Sound Toggle -->
+        <button id="sound-toggle" class="icon-btn" title="Toggle Studio Soundscape" aria-label="Toggle Studio Soundscape">
+          <i data-lucide="volume-x" id="sound-icon"></i>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="icon-btn" title="Switch Theme" aria-label="Toggle Light Dark Theme">
+          <i data-lucide="sun" id="theme-icon"></i>
+        </button>
+
+        <!-- Language Switcher -->
+        <button id="lang-toggle" class="lang-btn" aria-label="Switch Language">
+          <span id="current-lang">FA</span>
+        </button>
+
+        <!-- Mobile Menu Trigger -->
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open Navigation Menu">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Drawer -->
+  <div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-inner">
+      <div class="mobile-menu-head">
+        <a href="#hero" class="brand-logo">
+          <span class="logo-mark" style="width:28px; height:28px;">
+            <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+              <circle cx="50" cy="50" r="50" fill="#E21B2C" />
+              <g fill="#FFFFFF">
+                <rect x="61" y="23" width="7.5" height="45.5" />
+                <rect x="23.5" y="61" width="45" height="7.5" />
+                <rect x="31" y="30" width="45" height="7.5" />
+                <rect x="31" y="30" width="7.5" height="46" />
+                <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+              </g>
+            </svg>
+          </span>
+          <span class="logo-text" style="font-size: 18px;">FOTROTH</span>
+        </a>
+        <button id="mobile-menu-close" class="icon-btn" aria-label="Close Menu"><i data-lucide="x"></i></button>
+      </div>
+      <nav class="mobile-nav">
+        <a href="#works" class="mobile-nav-link" data-i18n="nav_works">01. Selected Works</a>
+        <a href="#commercial" class="mobile-nav-link" data-i18n="nav_commercial">02. Commercial</a>
+        <a href="#philosophy" class="mobile-nav-link" data-i18n="nav_philosophy">03. Philosophy</a>
+        <a href="#academy" class="mobile-nav-link" data-i18n="nav_academy">04. Academy</a>
+        <a href="#journal" class="mobile-nav-link" data-i18n="nav_journal">05. Journal</a>
+        <a href="#contact" class="mobile-nav-link" data-i18n="nav_contact">06. Inquiry</a>
+      </nav>
+      <div class="mobile-menu-foot">
+        <p data-i18n="hero_roles">Visual Artist • International Photographer • Educator • Creative Director</p>
+        <div class="social-links-row">
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link">Instagram</a>
+          <a href="https://behance.net" target="_blank" rel="noopener" class="social-link">Behance</a>
+          <a href="https://vimeo.com" target="_blank" rel="noopener" class="social-link">Vimeo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="content">
+
+    <!-- 1. CINEMATIC HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="hero-bg-wrapper">
+        <div class="hero-bg-image-slider">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2000&auto=format&fit=crop" alt="Amir Moghadam Editorial Visual" class="hero-bg-img active" id="hero-bg-1" referrerPolicy="no-referrer" />
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2000&auto=format&fit=crop" alt="High Fashion Noir" class="hero-bg-img" id="hero-bg-2" referrerPolicy="no-referrer" />
+          <img src="https://images.unsplash.com/photo-1508873696983-2df515122519?q=80&w=2000&auto=format&fit=crop" alt="Cinematic Architectural" class="hero-bg-img" id="hero-bg-3" referrerPolicy="no-referrer" />
+        </div>
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="hero-container">
+        <!-- Top Status Bar -->
+        <div class="hero-top-bar">
+          <div class="hero-badge">
+            <span class="live-dot"></span>
+            <span data-i18n="hero_status">PARIS / DUBAI / TEHRAN</span>
+          </div>
+          <div class="time-display" id="local-time-display">
+            PARIS 17:04 • DUBAI 20:04 • TEHRAN 19:34
+          </div>
+        </div>
+
+        <!-- Center Typography -->
+        <div class="hero-content">
+          <div class="hero-eyebrow" data-i18n="hero_eyebrow">THE VISUAL HEADQUARTERS OF</div>
+          <h1 class="hero-title" id="hero-main-title">
+            <span class="word">AMIR</span>
+            <span class="word text-red">MOGHADAM</span>
+          </h1>
+          <p class="hero-subtitle" data-i18n="hero_subtitle">
+            Visual Artist • International Photographer • Photography Educator • Creative Director
+          </p>
+
+          <!-- Quick Action Buttons -->
+          <div class="hero-cta-group">
+            <a href="#works" class="btn-primary" data-i18n="hero_explore_btn">
+              <span>EXPLORE EXHIBITIONS</span>
+              <i data-lucide="arrow-down-right"></i>
+            </a>
+            <a href="#contact" class="btn-outline" data-i18n="hero_book_btn">
+              <span>PRIVATE INQUIRY</span>
+              <i data-lucide="mail"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Meter & Slider Dots -->
+        <div class="hero-bottom-bar">
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-num">14+</span>
+              <span class="stat-lbl" data-i18n="stat_years">Years Craft</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">38</span>
+              <span class="stat-lbl" data-i18n="stat_awards">Global Honors</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-num">120+</span>
+              <span class="stat-lbl" data-i18n="stat_campaigns">Commercials</span>
+            </div>
+          </div>
+
+          <div class="hero-slider-controls">
+            <span class="slide-indicator" id="slide-num">01 / 03</span>
+            <div class="slide-dots">
+              <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
+              <button class="dot" data-slide="1" aria-label="Slide 2"></button>
+              <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATEMENT STRIP -->
+    <section class="ticker-section">
+      <div class="ticker-wrapper">
+        <div class="ticker-content">
+          <span>LUXURY EDITORIAL</span>
+          <span class="star">✦</span>
+          <span>COMMERCIAL CREATIVE DIRECTION</span>
+          <span class="star">✦</span>
+          <span>FINE ART MONOCHROME</span>
+          <span class="star">✦</span>
+          <span>FOTROTH PRIVATE ACADEMY</span>
+          <span class="star">✦</span>
+          <span>HIGH FASHION NOIR</span>
+          <span class="star">✦</span>
+        </div>
+        <div class="ticker-content" aria-hidden="true">
+          <span>LUXURY EDITORIAL</span>
+          <span class="star">✦</span>
+          <span>COMMERCIAL CREATIVE DIRECTION</span>
+          <span class="star">✦</span>
+          <span>FINE ART MONOCHROME</span>
+          <span class="star">✦</span>
+          <span>FOTROTH PRIVATE ACADEMY</span>
+          <span class="star">✦</span>
+          <span>HIGH FASHION NOIR</span>
+          <span class="star">✦</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. SIGNATURE PROJECTS SECTION -->
+    <section id="works" class="section works-section">
+      <div class="section-container">
+        <!-- Section Header -->
+        <div class="section-header">
+          <div class="header-meta">
+            <span class="section-num">01 //</span>
+            <span class="section-tag" data-i18n="works_tag">EXHIBITION COLLECTION</span>
+          </div>
+          <h2 class="section-title" data-i18n="works_title">Signature Projects</h2>
+          <p class="section-lead" data-i18n="works_lead">
+            Curated editorial campaigns, fine art series, and automotive commercial works executed with uncompromising precision.
+          </p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all" data-i18n="filter_all">ALL EXHIBITIONS</button>
+          <button class="filter-btn" data-filter="fashion" data-i18n="filter_fashion">HIGH FASHION</button>
+          <button class="filter-btn" data-filter="automotive" data-i18n="filter_automotive">COMMERCIAL & AUTOMOTIVE</button>
+          <button class="filter-btn" data-filter="fineart" data-i18n="filter_fineart">FINE ART MONOCHROME</button>
+          <button class="filter-btn" data-filter="architecture" data-i18n="filter_architecture">ARCHITECTURAL</button>
+        </div>
+
+        <!-- Editorial Projects Showcase Showcase Grid -->
+        <div class="projects-showcase" id="projects-container">
+          <!-- Project 1: Vogue Italia -->
+          <article class="project-card large-card" data-category="fashion" data-id="p1">
+            <div class="project-image-box">
+              <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop" alt="Vogue Italia Silent Shadows" class="project-img" referrerPolicy="no-referrer" />
+              <div class="project-overlay-gradient"></div>
+              <div class="project-badge">VOGUE ITALIA • 2025</div>
+            </div>
+            <div class="project-details">
+              <div class="project-meta-top">
+                <span class="project-category">HIGH FASHION EDITORIAL</span>
+                <span class="project-specs">LEICA SL2 • 50MM SUMMILUX</span>
+              </div>
+              <h3 class="project-title">Silent Shadows: Couture in Motion</h3>
+              <p class="project-desc" data-i18n="p1_desc">
+                An exploration of chiaroscuro lighting and sculptured silk drapery shot inside a 19th-century Parisian studio.
+              </p>
+              <div class="project-action">
+                <span class="action-text" data-i18n="view_exhibition">ENTER EXHIBITION</span>
+                <div class="action-arrow"><i data-lucide="arrow-up-right"></i></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Porsche GT -->
+          <article class="project-card" data-category="automotive" data-id="p2">
+            <div class="project-image-box">
+              <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop" alt="Porsche GT Velocity" class="project-img" referrerPolicy="no-referrer" />
+              <div class="project-overlay-gradient"></div>
+              <div class="project-badge">PORSCHE • 2024</div>
+            </div>
+            <div class="project-details">
+              <div class="project-meta-top">
+                <span class="project-category">AUTOMOTIVE COMMERCIAL</span>
+                <span class="project-specs">HASSELBLAD H6D-100C</span>
+              </div>
+              <h3 class="project-title">Porsche 911: Velocity & Rain</h3>
+              <p class="project-desc" data-i18n="p2_desc">
+                Midnight rain production in Stuttgart capturing the pure silhouette and metallic reflection of performance engineering.
+              </p>
+              <div class="project-action">
+                <span class="action-text" data-i18n="view_exhibition">ENTER EXHIBITION</span>
+                <div class="action-arrow"><i data-lucide="arrow-up-right"></i></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Leica Monochrome -->
+          <article class="project-card" data-category="fineart" data-id="p3">
+            <div class="project-image-box">
+              <img src="https://images.unsplash.com/photo-1508873696983-2df515122519?q=80&w=1200&auto=format&fit=crop" alt="Leica Masterpiece Monochrome" class="project-img" referrerPolicy="no-referrer" />
+              <div class="project-overlay-gradient"></div>
+              <div class="project-badge">FINE ART • 2024</div>
+            </div>
+            <div class="project-details">
+              <div class="project-meta-top">
+                <span class="project-category">FINE ART MONOCHROME</span>
+                <span class="project-specs">LEICA M11 MONOCHROM</span>
+              </div>
+              <h3 class="project-title">The Anima Series: Silver Halide</h3>
+              <p class="project-desc" data-i18n="p3_desc">
+                Pure black and white emotional portraits investigating human posture, silence, and timeless light density.
+              </p>
+              <div class="project-action">
+                <span class="action-text" data-i18n="view_exhibition">ENTER EXHIBITION</span>
+                <div class="action-arrow"><i data-lucide="arrow-up-right"></i></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: Tokyo Architectural -->
+          <article class="project-card" data-category="architecture" data-id="p4">
+            <div class="project-image-box">
+              <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1200&auto=format&fit=crop" alt="Tokyo Architectural Symphony" class="project-img" referrerPolicy="no-referrer" />
+              <div class="project-overlay-gradient"></div>
+              <div class="project-badge">ARCHITECTURAL DIGEST • 2025</div>
+            </div>
+            <div class="project-details">
+              <div class="project-meta-top">
+                <span class="project-category">ARCHITECTURAL FINE ART</span>
+                <span class="project-specs">ALPA MAX • TILT-SHIFT 24MM</span>
+              </div>
+              <h3 class="project-title">Tokyo Brutalism: Geometry at Dusk</h3>
+              <p class="project-desc" data-i18n="p4_desc">
+                A study of concrete volume, negative space, and golden hour light cast across modern Tokyo architectural landmarks.
+              </p>
+              <div class="project-action">
+                <span class="action-text" data-i18n="view_exhibition">ENTER EXHIBITION</span>
+                <div class="action-arrow"><i data-lucide="arrow-up-right"></i></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5: Desert Void Dubai -->
+          <article class="project-card" data-category="fashion" data-id="p5">
+            <div class="project-image-box">
+              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop" alt="Desert Void Dubai Couture" class="project-img" referrerPolicy="no-referrer" />
+              <div class="project-overlay-gradient"></div>
+              <div class="project-badge">HARPER'S BAZAAR • 2023</div>
+            </div>
+            <div class="project-details">
+              <div class="project-meta-top">
+                <span class="project-category">HIGH FASHION CAMPAIGN</span>
+                <span class="project-specs">HASSELBLAD H6D • PROFOTO B10</span>
+              </div>
+              <h3 class="project-title">Desert Void: Middle East Couture</h3>
+              <p class="project-desc" data-i18n="p5_desc">
+                Surreal desert landscape campaign capturing flowing silk silhouettes against raw dune topography at twilight.
+              </p>
+              <div class="project-action">
+                <span class="action-text" data-i18n="view_exhibition">ENTER EXHIBITION</span>
+                <div class="action-arrow"><i data-lucide="arrow-up-right"></i></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. COMMERCIAL EXPERIENCE SECTION -->
+    <section id="commercial" class="section commercial-section">
+      <div class="section-container">
+        <!-- Section Header -->
+        <div class="section-header">
+          <div class="header-meta">
+            <span class="section-num">02 //</span>
+            <span class="section-tag" data-i18n="comm_tag">CREATIVE PARTNERSHIPS</span>
+          </div>
+          <h2 class="section-title" data-i18n="comm_title">Commercial Excellence</h2>
+          <p class="section-lead" data-i18n="comm_lead">
+            Serving global luxury houses, automotive legends, and prestigious publications with unified visual direction.
+          </p>
+        </div>
+
+        <!-- Brand Collaborators Grid -->
+        <div class="brand-grid">
+          <div class="brand-item">
+            <span class="brand-name">VOGUE ITALIA</span>
+            <span class="brand-role">Editorial Campaigns</span>
+          </div>
+          <div class="brand-item">
+            <span class="brand-name">LEICA CAMERA</span>
+            <span class="brand-role">Global Brand Ambassador</span>
+          </div>
+          <div class="brand-item">
+            <span class="brand-name">PORSCHE</span>
+            <span class="brand-role">Automotive Visuals</span>
+          </div>
+          <div class="brand-item">
+            <span class="brand-name">HASSELBLAD</span>
+            <span class="brand-role">Master Photographer</span>
+          </div>
+          <div class="brand-item">
+            <span class="brand-name">ARCHITECTURAL DIGEST</span>
+            <span class="brand-role">Spatial Features</span>
+          </div>
+          <div class="brand-item">
+            <span class="brand-name">CARTIER</span>
+            <span class="brand-role">High Jewelry Art</span>
+          </div>
+          <div class="brand-item">
+            <span class="brand-name">SONY ALPHA</span>
+            <span class="brand-role">Creative Keynote</span>
+          </div>
+          <div class="brand-item">
+            <span class="brand-name">HARPER'S BAZAAR</span>
+            <span class="brand-role">Fashion Cover Series</span>
+          </div>
+        </div>
+
+        <!-- Commercial Pillars Box -->
+        <div class="commercial-pillars">
+          <div class="pillar-card">
+            <div class="pillar-num">01</div>
+            <h3 class="pillar-title" data-i18n="pillar_1_title">Cinematic Light Engineering</h3>
+            <p class="pillar-desc" data-i18n="pillar_1_desc">
+              Custom lighting diagrams and shadow sculpting tailored specifically to enhance garment textures, vehicle lines, and spatial volumes.
+            </p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-num">02</div>
+            <h3 class="pillar-title" data-i18n="pillar_2_title">End-to-End Creative Direction</h3>
+            <p class="pillar-desc" data-i18n="pillar_2_desc">
+              From concept development, casting, location scouting in Europe and Middle East, to final analog & digital color science.
+            </p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-num">03</div>
+            <h3 class="pillar-title" data-i18n="pillar_3_title">Uncompromising Quality Standard</h3>
+            <p class="pillar-desc" data-i18n="pillar_3_desc">
+              Medium format 100MP captures delivering pristine detail for global billboard installations, high-art coffee table books, and digital platforms.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ARTIST PHILOSOPHY SECTION -->
+    <section id="philosophy" class="section philosophy-section">
+      <div class="section-container">
+        <div class="philosophy-layout">
+          <div class="philosophy-content">
+            <div class="header-meta">
+              <span class="section-num">03 //</span>
+              <span class="section-tag" data-i18n="philo_tag">THE ARTIST MANIFESTO</span>
+            </div>
+            
+            <blockquote class="manifesto-quote">
+              <p id="manifesto-text" data-i18n="philo_quote">
+                "Every image is a dialogue between light, emotion, and time. We do not merely capture what exists; we reveal what usually escapes the naked eye."
+              </p>
+              <cite class="quote-author">— AMIR MOGHADAM</cite>
+            </blockquote>
+
+            <div class="philosophy-points">
+              <div class="philo-point">
+                <span class="philo-num">I.</span>
+                <div>
+                  <h4 data-i18n="philo_1_title">The Geometry of Silence</h4>
+                  <p data-i18n="philo_1_desc">In a world saturated with noisy visual content, luxury resides in restraint. True impact is achieved when every line and shadow serves a deliberate visual purpose.</p>
+                </div>
+              </div>
+
+              <div class="philo-point">
+                <span class="philo-num">II.</span>
+                <div>
+                  <h4 data-i18n="philo_2_title">Light as a Sculptural Medium</h4>
+                  <p data-i18n="philo_2_desc">Light is not merely illumination — it is physical material. Controlling its falloff, reflection, and gradient gives character to form.</p>
+                </div>
+              </div>
+
+              <div class="philo-point">
+                <span class="philo-num">III.</span>
+                <div>
+                  <h4 data-i18n="philo_3_title">Emotional Truth</h4>
+                  <p data-i18n="philo_3_desc">Whether directing a global automotive campaign or a high-fashion portrait, technical perfection is meaningless without an underlying pulse of human emotion.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="philosophy-visual">
+            <div class="philo-image-frame">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop" alt="Amir Moghadam Studio Philosophy" class="philo-img" referrerPolicy="no-referrer" />
+              <div class="philo-caption">
+                <span class="caption-title">LEICA M11 MONOCHROM • PARIS STUDIO</span>
+                <span class="caption-sub">Amir Moghadam during silent portrait session</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. EDUCATION / ACADEMY SECTION -->
+    <section id="academy" class="section academy-section">
+      <div class="section-container">
+        <!-- Section Header -->
+        <div class="section-header text-center">
+          <div class="header-meta justify-center">
+            <span class="section-num">04 //</span>
+            <span class="section-tag" data-i18n="acad_tag">EXCLUSIVE MASTERCLASS & MENTORSHIP</span>
+          </div>
+          <h2 class="section-title" data-i18n="acad_title">Fotroth Private Academy</h2>
+          <p class="section-lead mx-auto" data-i18n="acad_lead">
+            An elite photography & creative direction institute. Reserved for advanced photographers, directors, and artists seeking master-level visual command.
+          </p>
+        </div>
+
+        <!-- Academy Programs Cards -->
+        <div class="academy-cards">
+          <!-- Program 1 -->
+          <div class="academy-card">
+            <div class="card-head">
+              <span class="academy-badge">INTENSIVE • COHORT 09</span>
+              <span class="academy-seats">LIMITED TO 12 SEATS</span>
+            </div>
+            <h3 class="academy-title" data-i18n="acad_prog1_title">The Masterclass in Commercial Light & Shadow</h3>
+            <p class="academy-desc" data-i18n="acad_prog1_desc">
+              Master complex studio strobe configurations, cinema continuous lighting, atmospheric diffusion, and shape manipulation for high-fashion & commercial products.
+            </p>
+
+            <ul class="academy-list">
+              <li><i data-lucide="check"></i> 6 Weeks Intensive On-Site & Digital Studio Labs</li>
+              <li><i data-lucide="check"></i> Live Direction of Professional European Models</li>
+              <li><i data-lucide="check"></i> Advanced Color Science & Retouching Workflows</li>
+              <li><i data-lucide="check"></i> Direct One-on-One Portfolio Critique with Amir</li>
+            </ul>
+
+            <div class="card-foot">
+              <div class="price-box">
+                <span class="price-lbl">ADMISSION</span>
+                <span class="price-val">BY APPLICATION ONLY</span>
+              </div>
+              <button class="btn-primary btn-block open-academy-modal" data-program="Commercial Light & Shadow" data-i18n="acad_apply_btn">
+                <span>APPLY FOR ADMISSION</span>
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Program 2 -->
+          <div class="academy-card featured">
+            <div class="card-head">
+              <span class="academy-badge gold">EXCLUSIVE MENTORSHIP</span>
+              <span class="academy-seats">4 ARTISTS PER YEAR</span>
+            </div>
+            <h3 class="academy-title" data-i18n="acad_prog2_title">1-on-1 Creative Direction & Brand Mastery</h3>
+            <p class="academy-desc" data-i18n="acad_prog2_desc">
+              A 6-month private mentorship program designed to transform your photography practice into a high-value international brand with elite commercial clients.
+            </p>
+
+            <ul class="academy-list">
+              <li><i data-lucide="check"></i> Bi-weekly Private Strategy Sessions with Amir Moghadam</li>
+              <li><i data-lucide="check"></i> Personal Portfolio & Brand Identity Overhaul</li>
+              <li><i data-lucide="check"></i> Client Pitching & Luxury Pricing Architecture</li>
+              <li><i data-lucide="check"></i> Invitation to Amir's International On-Location Shoots</li>
+            </ul>
+
+            <div class="card-foot">
+              <div class="price-box">
+                <span class="price-lbl">MENTORSHIP</span>
+                <span class="price-val">PRIVATE SELECTION</span>
+              </div>
+              <button class="btn-gold btn-block open-academy-modal" data-program="1-on-1 Creative Direction Mentorship" data-i18n="acad_apply_btn">
+                <span>APPLY FOR MENTORSHIP</span>
+                <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alumni Quote / Counter -->
+        <div class="alumni-banner">
+          <div class="alumni-stat">
+            <span class="alumni-num">4,500+</span>
+            <span class="alumni-lbl">Photographers Educated Worldwide</span>
+          </div>
+          <p class="alumni-quote" data-i18n="acad_quote">
+            "Amir doesn't just teach light settings; he changes how you observe the physical universe. My agency rate quadrupled within 6 months."
+            <br><strong>— Sarah V., Commercial Photographer (Milan)</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. JOURNAL / STORIES SECTION -->
+    <section id="journal" class="section journal-section">
+      <div class="section-container">
+        <!-- Section Header -->
+        <div class="section-header">
+          <div class="header-meta">
+            <span class="section-num">05 //</span>
+            <span class="section-tag" data-i18n="journ_tag">EDITORIAL ESSAYS & NOTES</span>
+          </div>
+          <h2 class="section-title" data-i18n="journ_title">Fotroth Journal</h2>
+          <p class="section-lead" data-i18n="journ_lead">
+            Reflections on visual aesthetics, medium format analog philosophy, and the evolving language of commercial luxury.
+          </p>
+        </div>
+
+        <!-- Journal List -->
+        <div class="journal-list">
+          <!-- Article 1 -->
+          <article class="journal-item open-journal-article" data-id="art1">
+            <div class="journal-meta">
+              <span class="journal-date">OCTOBER 2025</span>
+              <span class="journal-cat">LIGHT & ATMOSPHERE</span>
+            </div>
+            <h3 class="journal-title">The Geometry of Light in High-Fashion Noir</h3>
+            <p class="journal-excerpt">
+              Why harsh directional shadows evoke more emotional resonance than flat beauty lighting in modern luxury campaigns.
+            </p>
+            <div class="journal-read-more">
+              <span data-i18n="read_essay">READ ESSAY</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </article>
+
+          <!-- Article 2 -->
+          <article class="journal-item open-journal-article" data-id="art2">
+            <div class="journal-meta">
+              <span class="journal-date">AUGUST 2025</span>
+              <span class="journal-cat">ANALOG PHILOSOPHY</span>
+            </div>
+            <h3 class="journal-title">The Tactile Soul of Medium Format Film in a 100MP Digital World</h3>
+            <p class="journal-excerpt">
+              Examining why major fashion houses are returning to silver halide grain to combat algorithmic digital perfection.
+            </p>
+            <div class="journal-read-more">
+              <span data-i18n="read_essay">READ ESSAY</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </article>
+
+          <!-- Article 3 -->
+          <article class="journal-item open-journal-article" data-id="art3">
+            <div class="journal-meta">
+              <span class="journal-date">MAY 2025</span>
+              <span class="journal-cat">CREATIVE DIRECTION</span>
+            </div>
+            <h3 class="journal-title">The Director’s Vision: Translating Brand Identity into Silent Imagery</h3>
+            <p class="journal-excerpt">
+              How to establish a cohesive visual language that communicates heritage, speed, and elegance without uttering a word.
+            </p>
+            <div class="journal-read-more">
+              <span data-i18n="read_essay">READ ESSAY</span>
+              <i data-lucide="arrow-right"></i>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CONTACT SECTION (LUXURY INVITATION) -->
+    <section id="contact" class="section contact-section">
+      <div class="section-container">
+        <div class="contact-layout">
+          <div class="contact-info-col">
+            <div class="header-meta">
+              <span class="section-num">06 //</span>
+              <span class="section-tag" data-i18n="contact_tag">PRIVATE INQUIRY</span>
+            </div>
+            <h2 class="contact-title" data-i18n="contact_title">Initiate a Collaboration</h2>
+            <p class="contact-lead" data-i18n="contact_lead">
+              For commercial campaign commissions, fine art print acquisitions, gallery exhibitions, or private academy mentorship.
+            </p>
+
+            <div class="representation-box">
+              <h4 class="rep-title" data-i18n="rep_title">GLOBAL REPRESENTATION</h4>
+              <div class="rep-grid">
+                <div class="rep-city">
+                  <strong>PARIS STUDIO</strong>
+                  <p>Rue du Faubourg Saint-Honoré, 75008 Paris</p>
+                  <a href="mailto:paris@fotroth.com" class="rep-email">paris@fotroth.com</a>
+                </div>
+                <div class="rep-city">
+                  <strong>DUBAI OFFICE</strong>
+                  <p>D3 Design District, Building 4, Dubai</p>
+                  <a href="mailto:dubai@fotroth.com" class="rep-email">dubai@fotroth.com</a>
+                </div>
+                <div class="rep-city">
+                  <strong>TEHRAN STUDIO</strong>
+                  <p>Elahiyeh Creative District, Tehran</p>
+                  <a href="mailto:tehran@fotroth.com" class="rep-email">tehran@fotroth.com</a>
+                </div>
+                <div class="rep-city">
+                  <strong>DIRECT INQUIRIES</strong>
+                  <p>Personal Management</p>
+                  <a href="mailto:amir@fotroth.com" class="rep-email highlight">amir@fotroth.com</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form-col">
+            <form id="inquiry-form" class="luxury-form">
+              <div class="form-group">
+                <label for="form-name" class="form-label" data-i18n="form_name_lbl">YOUR NAME / ORGANIZATION *</label>
+                <input type="text" id="form-name" class="form-input" placeholder="e.g. Vogue Italia / Alexander Vance" required />
+              </div>
+
+              <div class="form-group">
+                <label for="form-email" class="form-label" data-i18n="form_email_lbl">EMAIL ADDRESS *</label>
+                <input type="email" id="form-email" class="form-input" placeholder="name@domain.com" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" data-i18n="form_purpose_lbl">NATURE OF INQUIRY *</label>
+                <div class="radio-pill-group">
+                  <label class="radio-pill">
+                    <input type="radio" name="purpose" value="Commercial Campaign" checked />
+                    <span data-i18n="purp_comm">Commercial Campaign</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="purpose" value="Editorial Shoot" />
+                    <span data-i18n="purp_edit">Editorial Shoot</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="purpose" value="Academy Mentorship" />
+                    <span data-i18n="purp_acad">Academy Admission</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="purpose" value="Fine Art Print" />
+                    <span data-i18n="purp_print">Print Acquisition</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="form-budget" class="form-label" data-i18n="form_budget_lbl">APPROXIMATE BUDGET / SCALE</label>
+                <select id="form-budget" class="form-select">
+                  <option value="Select Scale">Select Scale Option</option>
+                  <option value="$15k - $30k">$15,000 – $30,000</option>
+                  <option value="$30k - $75k">$30,000 – $75,000</option>
+                  <option value="$75k+">$75,000+ (Global Campaign)</option>
+                  <option value="Academy Fee">Academy Masterclass / Mentorship</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="form-message" class="form-label" data-i18n="form_msg_lbl">PROJECT BRIEF / VISION DETAILS *</label>
+                <textarea id="form-message" class="form-textarea" rows="4" placeholder="Describe the creative scope, timeline, and key requirements..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn-gold btn-block btn-lg" id="form-submit-btn">
+                <span data-i18n="form_submit_btn">SUBMIT PRIVATE INQUIRY</span>
+                <i data-lucide="send"></i>
+              </button>
+
+              <div id="form-status" class="form-status hidden"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#hero" class="brand-logo" style="margin-bottom: 12px;">
+            <span class="logo-mark" style="width:32px; height:32px;">
+              <svg viewBox="0 0 100 100" class="logo-icon-svg" aria-hidden="true">
+                <circle cx="50" cy="50" r="50" fill="#E21B2C" />
+                <g fill="#FFFFFF">
+                  <rect x="61" y="23" width="7.5" height="45.5" />
+                  <rect x="23.5" y="61" width="45" height="7.5" />
+                  <rect x="31" y="30" width="45" height="7.5" />
+                  <rect x="31" y="30" width="7.5" height="46" />
+                  <rect x="38.5" y="45.5" width="16.5" height="7.5" />
+                </g>
+              </svg>
+            </span>
+            <span class="logo-text-group">
+              <span class="logo-text">FOTROTH</span>
+              <span class="logo-sub">AMIR MOGHADAM</span>
+            </span>
+          </a>
+          <p class="footer-desc" data-i18n="footer_desc">
+            International Photography, Visual Art & Creative Direction Studio.
+          </p>
+        </div>
+
+        <div class="footer-links-grid">
+          <div class="footer-col">
+            <span class="col-title">NAVIGATION</span>
+            <a href="#works">Works</a>
+            <a href="#commercial">Commercial</a>
+            <a href="#philosophy">Philosophy</a>
+            <a href="#academy">Academy</a>
+            <a href="#journal">Journal</a>
+          </div>
+          <div class="footer-col">
+            <span class="col-title">STUDIOS</span>
+            <span>Paris Studio</span>
+            <span>Dubai District</span>
+            <span>Tehran Gallery</span>
+          </div>
+          <div class="footer-col">
+            <span class="col-title">SOCIAL</span>
+            <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://behance.net" target="_blank" rel="noopener">Behance</a>
+            <a href="https://vimeo.com" target="_blank" rel="noopener">Vimeo</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="copyright">
+          © <span id="year-span">2026</span> FOTROTH • AMIR MOGHADAM. ALL RIGHTS RESERVED.
+        </div>
+        <div class="footer-credits">
+          <span data-i18n="footer_tagline">LUXURY COMMERCIAL • EDITORIAL • CINEMATIC</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- EXHIBITION LIGHTBOX MODAL -->
+  <div id="project-modal" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-content project-modal-content">
+      <button id="modal-close-btn" class="modal-close-btn" aria-label="Close Lightbox"><i data-lucide="x"></i></button>
+      
+      <div class="modal-body" id="modal-project-body">
+        <!-- Dynamically injected project content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ACADEMY APPLICATION MODAL -->
+  <div id="academy-modal" class="modal-overlay hidden" aria-hidden="true">
+    <div class="modal-content academy-modal-content">
+      <button id="academy-modal-close" class="modal-close-btn" aria-label="Close Modal"><i data-lucide="x"></i></button>
+
+      <div class="modal-header-box">
+        <span class="section-tag">FOTROTH ACADEMY</span>
+        <h3 class="modal-title" id="academy-modal-program-title">Application for Admission</h3>
+        <p class="modal-sub">Classes are curated based on portfolio strength and creative vision.</p>
+      </div>
+
+      <form id="academy-app-form" class="luxury-form mt-6">
+        <div class="form-group">
+          <label class="form-label">FULL NAME *</label>
+          <input type="text" class="form-input" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">EMAIL ADDRESS *</label>
+          <input type="email" class="form-input" placeholder="Your email address" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">PORTFOLIO LINK / INSTAGRAM HANDLE *</label>
+          <input type="text" class="form-input" placeholder="https://instagram.com/yourhandle or portfolio website" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">CURRENT EXPERIENCE LEVEL</label>
+          <select class="form-select">
+            <option>Advanced Professional (5+ years)</option>
+            <option>Intermediate Photographer (2-5 years)</option>
+            <option>Creative Director / Art Director</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">WHY DO YOU WISH TO STUDY WITH AMIR MOGHADAM? *</label>
+          <textarea class="form-textarea" rows="3" placeholder="Brief statement of purpose..." required></textarea>
+        </div>
+        <button type="submit" class="btn-gold btn-block btn-lg">
+          <span>SUBMIT ADMISSION DOSSIER</span>
+          <i data-lucide="send"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JOURNAL ARTICLE SLIDE-OUT DRAWER -->
+  <div id="journal-drawer" class="drawer-overlay hidden" aria-hidden="true">
+    <div class="drawer-content">
+      <button id="journal-drawer-close" class="drawer-close-btn" aria-label="Close Article"><i data-lucide="x"></i></button>
+      <div id="journal-article-body" class="journal-article-body">
+        <!-- Injected article content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Ambient Soundscape Audio Source -->
+  <audio id="ambient-audio" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-ambient-pad-111154.mp3"></audio>
+
+  <!-- Application Script -->
+  <script defer src="./script.js"></script>
+</body>
+</html>
