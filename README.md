@@ -3,7 +3,7 @@
 *A premium, cinematic digital platform for a luxury photography & creative direction collective.  
 Featuring museum-style exhibition wings, advanced scroll-triggered animations, and full bilingual (EN/FA) support.*
 
-![FOTROTH Interface Preview](./assets/preview.webp)
+![FOTROTH Interface Preview](./fotroth-v1.4/assets/preview.webp)
 
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](#)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](#)
